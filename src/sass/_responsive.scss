@@ -1,0 +1,57 @@
+@media screen and (min-width: $xxl-desktop-min) {
+  html, body {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: $xl-desktop-max) {
+  html, body {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: $desktop-max) {
+  html, body {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: $tablet-landscape-max) {
+  html, body {
+    font-size: 15px;
+  }
+}
+
+@media screen and (min-width: $tablet-portrait-min) {
+  .mobile-only {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $phone-landscape-max) {
+  html, body {
+    font-size: 14px;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $phone-portrait-max) {
+  html, body {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: $flip-phone-max) {
+  html, body {
+    font-size: 7px;
+  }
+}
+
+@media screen and (max-width: $super-ultra-tiny-flip-phone-max) {
+  html, body {
+    font-size: 5px;
+  }
+}

@@ -1,0 +1,7 @@
+linters:
+  HexNotation:
+    style: 'uppercase'
+  HexLength:
+    style: 'long'
+  SingleLinePerSelector:
+    enabled: false

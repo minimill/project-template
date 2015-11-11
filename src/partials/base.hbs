@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{ meta.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="{{ meta.description }}" />
+    <meta name="robots" content="NOODP, index, follow" />
+    <meta itemprop="name" content="{{ meta.title }}">
+    <meta itemprop="description" content="{{ meta.description }}">
+    <meta itemprop="image" content="{{ meta.image }}">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{ meta.twitter_handle }}">
+    <meta name="twitter:title" content="{{ meta.title }}">
+    <meta name="twitter:description" content="{{ meta.description }}">
+    <meta name="twitter:creator" content="{{ meta.twitter_handle }}">
+    <meta name="twitter:image:src" content="{{ meta.twitter_image }}">
+    <meta name="twitter:domain" content="{{ meta.domain }}">
+    <!-- Open Graph data (Facebook) -->
+    <meta property="og:title" content="{{ meta.title }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ meta.url }}/" />
+    <meta property="og:image" content="{{ meta.facebook_image }}" />
+    <meta property="og:description" content="{{ meta.description }}" />
+    <!-- Apple Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/img/favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/favicon/apple-touch-icon-152x152.png" />
+    <!-- Standard Icons -->
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-128.png" sizes="128x128" />
+    <!-- Microsoft Metadata -->
+    <meta name="application-name" content="{{ meta.title }}"/>
+    <meta name="msapplication-TileColor" content="#F2BE55" />
+    <meta name="msapplication-TileImage" content="/img/favicon/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="/img/favicon/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="/img/favicon/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="/img/favicon/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="/img/favicon/mstile-310x310.png" />
+    <!-- Chrome Theme Color -->
+    <meta name="theme-color" content="#F2BE55">
+
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css" inline>
+    <!-- Google Analytics go here -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-66637918-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body>
+    {{#block "main"}}{{/block}}
+</body>
+</html>

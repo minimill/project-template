@@ -1,0 +1,67 @@
+// Font weights
+$extra-bold: 800;
+$bold: 700;
+$medium: 500;
+$regular: 400;
+$light: 300;
+
+// @font-face {
+//   font-family: 'Standard';
+//   font-weight: $light;
+//   src: url('/font/Standard-Light.eot?') format('eot'),
+//        url('/font/Standard-Light.woff') format('woff'),
+//        url('/font/Standard-Light.ttf') format('truetype');
+// }
+
+$sans: 'Standard', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+h1, %h1 {
+  font-size: 2.25rem;
+  font-weight: $light;
+  letter-spacing: .5px;
+  margin-bottom: 2.5rem;
+}
+
+h2, %h2 {
+  font-size: 1rem;
+  font-weight: $medium;
+  letter-spacing: 4px;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h3, %h3 {
+  font-size: 1.5rem;
+  letter-spacing: .5px;
+}
+
+h4, %h4 {
+  font-size: 1.1rem;
+  letter-spacing: .5px;
+}
+
+h5, %h5 {
+  color: $gray;
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+p, .p {
+  color: $gray;
+  font-size: 1rem;
+}
+
+strong {
+  font-weight: $medium;
+}
+
+@media screen and (max-width: $phone-landscape-max) {
+  h1, %h1 {
+    font-size: 1.75rem;
+  }
+
+  h4, %h4 {
+    font-size: 1.5rem;
+  }
+}
