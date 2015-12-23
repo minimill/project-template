@@ -18,7 +18,7 @@ $sans: 'Standard', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 h1, %h1 {
   font-size: 2.25rem;
   font-weight: $light;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   margin-bottom: 2.5rem;
 }
 
@@ -33,22 +33,20 @@ h2, %h2 {
 
 h3, %h3 {
   font-size: 1.5rem;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
 h4, %h4 {
   font-size: 1.1rem;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
 h5, %h5 {
-  color: $gray;
-  font-size: .75rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
 }
 
 p, .p {
-  color: $gray;
   font-size: 1rem;
 }
 
