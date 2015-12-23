@@ -134,7 +134,7 @@ gulp.task('templates:optimized', ['templates'], function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/templates/**/*.hbs', ['templates'], reload);
+  gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs'], ['templates'], reload);
   gulp.watch('./src/sass/**/*.scss', ['sass'], reload);
   gulp.watch('./src/img/**/*', ['images'], reload);
   gulp.watch(['./src/js/**/*.js', 'Gulpfile.js'], ['js'], reload);
