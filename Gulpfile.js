@@ -26,15 +26,15 @@ var yaml = require('js-yaml');
 
 handlebars.Handlebars.registerHelper(layouts(handlebars.Handlebars));
 
-gulp.task('sass:lint', function() {
+gulp.task('sass:lint', function () {
   gulp.src('./src/sass/*.scss')
     .pipe(plumber())
     .pipe(scsslint());
 });
 
-gulp.task('sass:build', function() {
+gulp.task('sass:build', function () {
   gulp.src('./src/sass/**/style.scss')
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({ suffix: '.min' }))
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -45,28 +45,28 @@ gulp.task('sass:build', function() {
     .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('sass:optimized', function() {
+gulp.task('sass:optimized', function () {
   gulp.src('./src/sass/**/style.scss')
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({ suffix: '.min' }))
     .pipe(plumber())
     .pipe(sass({
       outputStyle: 'compressed',
     }))
     .pipe(autoprefixer())
-    .pipe(minifyCss({compatibility: 'ie8'}))
+    .pipe(minifyCss({ compatibility: 'ie8' }))
     .pipe(gulp.dest('dist/css/'));
 });
 
 gulp.task('sass', ['sass:lint', 'sass:build']);
 
-gulp.task('js:build', function() {
+gulp.task('js:build', function () {
   gulp.src('src/js/**/*.js')
     .pipe(plumber())
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('js:lint', function() {
+gulp.task('js:lint', function () {
   gulp.src(['./src/js/**/*.js', '!./src/js/lib/**/*.js', 'Gulpfile.js'])
     .pipe(plumber())
       .pipe(jscs())
@@ -76,7 +76,7 @@ gulp.task('js:lint', function() {
 
 gulp.task('js', ['js:lint', 'js:build']);
 
-gulp.task('images', function() {
+gulp.task('images', function () {
   gulp.src('src/img/**/*')
     .pipe(plumber())
     .pipe(imagemin({
@@ -85,7 +85,7 @@ gulp.task('images', function() {
     .pipe(gulp.dest('./dist/img'));
 });
 
-gulp.task('images:optimized', function() {
+gulp.task('images:optimized', function () {
   gulp.src('src/img/**/*')
     .pipe(plumber())
     .pipe(imagemin({
@@ -95,19 +95,19 @@ gulp.task('images:optimized', function() {
     .pipe(gulp.dest('./dist/img'));
 });
 
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
   gulp.src('src/font/*')
     .pipe(plumber())
     .pipe(gulp.dest('./dist/font'));
 });
 
-gulp.task('templates', function() {
+gulp.task('templates', function () {
   var templateData = yaml.safeLoad(fs.readFileSync('data.yml', 'utf-8'));
   var options = {
     ignorePartials: true, //ignores the unknown footer2 partial in the handlebars template, defaults to false
     batch: ['./src/partials/'],
     helpers: {
-      capitals: function(str) {
+      capitals: function (str) {
         return str.toUpperCase();
       },
     },
@@ -116,13 +116,13 @@ gulp.task('templates', function() {
   return gulp.src('./src/templates/**/*.hbs')
     .pipe(plumber())
     .pipe(handlebars(templateData, options))
-    .pipe(rename(function(path) {
+    .pipe(rename(function (path) {
       path.extname = '.html';
     }))
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('templates:optimized', ['templates'], function() {
+gulp.task('templates:optimized', ['templates'], function () {
   gulp.src('./dist/**/*.html')
     .pipe(inlinesource())
     .pipe(replace(/\.\.\//g, ''))
@@ -133,7 +133,7 @@ gulp.task('templates:optimized', ['templates'], function() {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs'], ['templates'], reload);
   gulp.watch('./src/sass/**/*.scss', ['sass'], reload);
   gulp.watch('./src/img/**/*', ['images'], reload);
@@ -143,16 +143,16 @@ gulp.task('watch', function() {
 gulp.task('build', ['sass', 'images', 'fonts', 'js', 'templates']);
 gulp.task('build:optimized', ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized']);
 
-gulp.task('deploy', ['build:optimized'], function() {
+gulp.task('deploy', ['build:optimized'], function () {
   gulp.src('')
     .pipe(shell('scp -r dist/* root@minimill.co:/srv/work/private_html/TITLE/'))
-    .on('finish', function() {
+    .on('finish', function () {
       process.stdout.write('Deployed to work.minimill.co/TITLE/');
     });
 });
 
 // use default task to launch Browsersync and watch JS files
-gulp.task('serve', ['build'], function() {
+gulp.task('serve', ['build'], function () {
 
   // Serve files from the root of this project
   browserSync.init(['./dist/**/*'], {
