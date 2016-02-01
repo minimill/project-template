@@ -3,16 +3,16 @@
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var cache = require('gulp-cached');
+var cssnano = require('gulp-cssnano');
 var fs = require('fs');
 var gulp = require('gulp');
 var handlebars = require('gulp-compile-handlebars');
+var htmlmin = require('gulp-htmlmin');
 var imagemin = require('gulp-imagemin');
 var inlinesource = require('gulp-inline-source');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var layouts = require('handlebars-layouts');
-var minifyCss = require('gulp-minify-css');
-var minifyHTML = require('gulp-minify-html');
 var plumber = require('gulp-plumber');
 var reload = browserSync.reload;
 var rename = require('gulp-rename');
@@ -53,7 +53,7 @@ gulp.task('sass:optimized', function() {
       outputStyle: 'compressed',
     }))
     .pipe(autoprefixer())
-    .pipe(minifyCss({compatibility: 'ie8'}))
+    .pipe(cssnano({compatibility: 'ie8'}))
     .pipe(gulp.dest('dist/css/'));
 });
 
@@ -126,9 +126,9 @@ gulp.task('templates:optimized', ['templates'], function() {
   gulp.src('./dist/**/*.html')
     .pipe(inlinesource())
     .pipe(replace(/\.\.\//g, ''))
-    .pipe(minifyHTML({
-      conditionals: true,
-      spare:true,
+    .pipe(htmlmin({
+      collapseWhitespace: true,
+      removeComments: true,
     }))
     .pipe(gulp.dest('./dist/'));
 });
