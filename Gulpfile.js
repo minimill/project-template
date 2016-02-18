@@ -142,6 +142,14 @@ gulp.task('clean', function(cb) {
   return rimraf('./dist/', cb);
 });
 
+gulp.task('deploy', ['build:optimized'], function() {
+  gulp.src('')
+    .pipe(shell('scp -r dist/* root@minimill.co:/srv/work/private_html/TITLE/'))
+    .on('finish', function() {
+      process.stdout.write('Deployed to work.minimill.co/TITLE/');
+    });
+});
+
 gulp.task('watch', function() {
   gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs'], ['templates'], reload);
   gulp.watch('./src/sass/**/*.scss', ['sass'], reload);
