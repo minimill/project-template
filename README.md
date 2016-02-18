@@ -1,7 +1,24 @@
-TITLE
+Project Template
 ========================================
 
-TITLE is built using [Gulp][gulp], [Handlebars.js][handlebars], and [SCSS][scss].
+The [Minimill](https://minimill.co) project template is the best way to build static sites fast.  With one command, build a static page using [Gulp][gulp], [ES6][es6], [Handlebars.js][handlebars], and [SCSS][scss].
+
+## Features
+
+- Install the project in just three commands (see "Developing" below).
+- Use [Handlebars.js][handlebars] to keep our HTML organized into templates and partials.
+- Use [SCSS][scss] to keep our CSS organized into logical components.
+- Use [Autoprefixer][autoprefixer] to automatically insert browser prefixes where necessary to handle cross browser compatibility.
+- Use [Browsersync][browsersync] to automatically launch a development version of our website, reload the page whenever we change the HTML, and inject changes to CSS, JavaScript, and images with needing to reload.
+- Use [HTML Minifier][htmlmin], [CSSNano][cssnano], [UglifyJS][uglifyjs], and [ImageMin][imagemin] to compress and optimize our HTML, CSS, JavaScript, and images, respectively.
+- Use [SCSS-Lint][scss-lint], [JSHint][jshint], and [JSCS][jscs] to perform [linting][linting] and style checking on our SCSS and JavaScript files.
+- Use [Bable] to allow us to write JavaScript with new [ES6][es6] features. 
+
+All with one command from the terminal:
+
+```
+gulp serve
+```
 
 ## Setup
 
@@ -19,7 +36,7 @@ gem install scss_lint
 gulp serve
 ```
 
-## Gulp
+## Gulp Commands
 
 An overview of Gulp commands available:
 
@@ -28,7 +45,7 @@ An overview of Gulp commands available:
 Builds the site into the `dist` directory.  This includes:
 
 - SCSS w/ linting, sourcemaps and autoprefixing
-- JS linting and uglification
+- JS linting, uglification, and ES6 to ES5 conversion
 - Handlebars to HTML
 
 ### `gulp build:optimized`
@@ -66,8 +83,19 @@ For use by the Minimill team only.  Deploys to `work.minimill.co/TITLE/`, but wo
     └── templates/    # Handlebars HTML files, one per page on the site.
 ```
 
+[autoprefixer]: https://css-tricks.com/autoprefixer/
+[bable]: https://babeljs.io/
 [browsersync]: http://www.browsersync.io/
+[cssmin]: https://github.com/ben-eb/cssnano
+[es6]: https://github.com/lukehoban/es6features
 [gulp]: http://gulpjs.com/
 [handlebars]: http://handlebarsjs.com/
+[htmlmin]: https://github.com/kangax/html-minifier
+[imagemin]: https://github.com/imagemin/imagemin
+[jscs]: http://jscs.info/
+[jshint]: http://jshint.com/
+[linting]: https://en.wikipedia.org/wiki/Lint_%28software%29
 [npm-install]: https://nodejs.org/en/download/
+[uglifyjs]: https://github.com/mishoo/UglifyJS
 [scss]: http://sass-lang.com/
+[scss-lint]: https://github.com/brigade/scss-lint
