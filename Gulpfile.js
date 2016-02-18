@@ -1,6 +1,11 @@
 'use strict';
 
 var autoprefixer = require('gulp-autoprefixer');
+var browserify = require('browserify');
+var babelify = require('babelify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
 var cache = require('gulp-cached');
 var cssnano = require('gulp-cssnano');
@@ -23,6 +28,11 @@ var shell = require('gulp-shell');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var yaml = require('js-yaml');
+var es = require('event-stream');
+var rimraf = require('rimraf');
+var runSequence = require('run-sequence');
+var path = require('path');
+
 
 handlebars.Handlebars.registerHelper(layouts(handlebars.Handlebars));
 
@@ -33,7 +43,7 @@ gulp.task('sass:lint', function() {
 });
 
 gulp.task('sass:build', function() {
-  gulp.src('./src/sass/**/style.scss')
+  return gulp.src('./src/sass/**/style.scss')
     .pipe(rename({suffix: '.min'}))
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -46,7 +56,7 @@ gulp.task('sass:build', function() {
 });
 
 gulp.task('sass:optimized', function() {
-  gulp.src('./src/sass/**/style.scss')
+  return gulp.src('./src/sass/**/style.scss')
     .pipe(rename({suffix: '.min'}))
     .pipe(plumber())
     .pipe(sass({
@@ -60,24 +70,47 @@ gulp.task('sass:optimized', function() {
 gulp.task('sass', ['sass:lint', 'sass:build']);
 
 gulp.task('js:build', function() {
-  gulp.src('src/js/**/*.js')
-    .pipe(plumber())
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/js'));
+  var files = fs.readdirSync('./src/js/').map(function(file) {
+    var filePath = './src/js/' + file;
+    if (fs.lstatSync(filePath).isDirectory()){
+      return undefined;
+    } else {
+      return filePath;
+    }
+  });
+
+  var tasks = files.map(function(entry) {
+    return browserify({
+        entries: [entry],
+        debug: true,
+      })
+      .transform('babelify', {presets: ['es2015']})
+      .bundle()
+      .pipe(source(path.basename(entry)))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+          // Add transformation tasks to the pipeline here.
+          .pipe(uglify({compress: false}))
+          .on('error', gutil.log)
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist/js/'));
+  });
+
+  return es.merge.apply(null, tasks);
 });
 
 gulp.task('js:lint', function() {
   gulp.src(['./src/js/**/*.js', '!./src/js/lib/**/*.js', 'Gulpfile.js'])
     .pipe(plumber())
       .pipe(jscs())
-    .pipe(jshint())
+    .pipe(jshint({ esversion: 6 }))
     .pipe(jshint.reporter('default'));
 });
 
 gulp.task('js', ['js:lint', 'js:build']);
 
 gulp.task('images', function() {
-  gulp.src('src/img/**/*')
+  return gulp.src('src/img/**/*')
     .pipe(plumber())
     .pipe(imagemin({
       progressive: true,
@@ -86,7 +119,7 @@ gulp.task('images', function() {
 });
 
 gulp.task('images:optimized', function() {
-  gulp.src('src/img/**/*')
+  return gulp.src('src/img/**/*')
     .pipe(plumber())
     .pipe(imagemin({
       progressive: true,
@@ -96,7 +129,7 @@ gulp.task('images:optimized', function() {
 });
 
 gulp.task('fonts', function() {
-  gulp.src('src/font/*')
+  return gulp.src('src/font/*')
     .pipe(plumber())
     .pipe(gulp.dest('./dist/font'));
 });
@@ -123,7 +156,7 @@ gulp.task('templates', function() {
 });
 
 gulp.task('templates:optimized', ['templates'], function() {
-  gulp.src('./dist/**/*.html')
+  return gulp.src('./dist/**/*.html')
     .pipe(inlinesource())
     .pipe(replace(/\.\.\//g, ''))
     .pipe(htmlmin({
@@ -133,6 +166,10 @@ gulp.task('templates:optimized', ['templates'], function() {
     .pipe(gulp.dest('./dist/'));
 });
 
+gulp.task('clean', function(cb) {
+  rimraf('./dist/', cb);
+});
+
 gulp.task('watch', function() {
   gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs'], ['templates'], reload);
   gulp.watch('./src/sass/**/*.scss', ['sass'], reload);
@@ -140,15 +177,14 @@ gulp.task('watch', function() {
   gulp.watch(['./src/js/**/*.js', 'Gulpfile.js'], ['js'], reload);
 });
 
-gulp.task('build', ['sass', 'images', 'fonts', 'js', 'templates']);
-gulp.task('build:optimized', ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized']);
+gulp.task('build', function (cb) {
+  runSequence('clean', ['sass', 'images', 'fonts', 'js', 'templates'], cb);
+});
 
-gulp.task('deploy', ['build:optimized'], function() {
-  gulp.src('')
-    .pipe(shell('scp -r dist/* root@minimill.co:/srv/work/private_html/TITLE/'))
-    .on('finish', function() {
-      process.stdout.write('Deployed to work.minimill.co/TITLE/');
-    });
+gulp.task('build:optimized', function(cb) {
+  runSequence('clean',
+    ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized'],
+    cb);
 });
 
 // use default task to launch Browsersync and watch JS files
@@ -156,6 +192,11 @@ gulp.task('serve', ['build'], function() {
 
   // Serve files from the root of this project
   browserSync.init(['./dist/**/*'], {
+    ghostMode: {
+      clicks: false,
+      forms: false,
+      scroll: false,
+    },
     server: {
       baseDir: './dist',
     },
