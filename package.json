@@ -4,14 +4,13 @@
   "description": "",
   "license": "MIT",
   "scripts": {},
-  "dependencies": {
-    "gulp": "^3.9.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babelify": "^7.2.0",
     "browser-sync": "^2.8.2",
     "browserify": "^13.0.0",
     "event-stream": "^3.3.2",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cached": "^1.1.0",
     "gulp-compile-handlebars": "^0.6.1",
