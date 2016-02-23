@@ -1,11 +1,6 @@
 'use strict';
 
 var autoprefixer = require('gulp-autoprefixer');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
 var cache = require('gulp-cached');
 var cssnano = require('gulp-cssnano');
@@ -28,7 +23,6 @@ var shell = require('gulp-shell');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var yaml = require('js-yaml');
-var es = require('event-stream');
 var rimraf = require('rimraf');
 var runSequence = require('run-sequence');
 var path = require('path');
@@ -70,40 +64,17 @@ gulp.task('sass:optimized', function() {
 gulp.task('sass', ['sass:lint', 'sass:build']);
 
 gulp.task('js:build', function() {
-  var files = fs.readdirSync('./src/js/').map(function(file) {
-    var filePath = './src/js/' + file;
-    if (fs.lstatSync(filePath).isDirectory()){
-      return undefined;
-    } else {
-      return filePath;
-    }
-  });
-
-  var tasks = files.map(function(entry) {
-    return browserify({
-        entries: [entry],
-        debug: true,
-      })
-      .transform('babelify', {presets: ['es2015']})
-      .bundle()
-      .pipe(source(path.basename(entry)))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
-          // Add transformation tasks to the pipeline here.
-          .pipe(uglify({compress: false}))
-          .on('error', gutil.log)
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js/'));
-  });
-
-  return es.merge.apply(null, tasks);
+  return gulp.src('src/js/**/*.js')
+    .pipe(plumber())
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('js:lint', function() {
   gulp.src(['./src/js/**/*.js', '!./src/js/lib/**/*.js', 'Gulpfile.js'])
     .pipe(plumber())
       .pipe(jscs())
-    .pipe(jshint({ esversion: 6 }))
+    .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
@@ -185,6 +156,14 @@ gulp.task('build:optimized', function(cb) {
   runSequence('clean',
     ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized'],
     cb);
+});
+
+gulp.task('deploy', ['build:optimized'], function() {
+  gulp.src('')
+    .pipe(shell('scp -r dist/* dan@danrs.ch:/srv/wiki-battle/public_html/'))
+    .on('finish', function() {
+      process.stdout.write('Deployed to battle.schlosser.io/');
+    });
 });
 
 // use default task to launch Browsersync and watch JS files
