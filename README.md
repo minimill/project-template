@@ -12,7 +12,7 @@ The [Minimill](https://minimill.co) project template is the best way to build st
 - Use [Browsersync][browsersync] to automatically launch a development version of our website, reload the page whenever we change the HTML, and inject changes to CSS, JavaScript, and images with needing to reload.
 - Use [HTML Minifier][htmlmin], [CSSNano][cssnano], [UglifyJS][uglifyjs], and [ImageMin][imagemin] to compress and optimize our HTML, CSS, JavaScript, and images, respectively.
 - Use [SCSS-Lint][scss-lint], [JSHint][jshint], and [JSCS][jscs] to perform [linting][linting] and style checking on our SCSS and JavaScript files.
-- Use [Bable] to allow us to write JavaScript with new [ES6][es6] features. 
+- Use [Babel] to allow us to write JavaScript with new [ES6][es6] features. 
 
 All with one command from the terminal:
 
