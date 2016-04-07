@@ -31,7 +31,7 @@ var path = require('path');
 handlebars.Handlebars.registerHelper(layouts(handlebars.Handlebars));
 
 gulp.task('sass:lint', function() {
-  gulp.src('./src/sass/*.scss')
+  return gulp.src('./src/sass/*.scss')
     .pipe(plumber())
     .pipe(scsslint());
 });
@@ -71,7 +71,7 @@ gulp.task('js:build', function() {
 });
 
 gulp.task('js:lint', function() {
-  gulp.src(['./src/js/**/*.js', '!./src/js/lib/**/*.js', 'Gulpfile.js'])
+  return gulp.src(['./src/js/**/*.js', '!./src/js/lib/**/*.js', 'Gulpfile.js'])
     .pipe(plumber())
       .pipe(jscs())
     .pipe(jshint())
@@ -138,7 +138,7 @@ gulp.task('templates:optimized', ['templates'], function() {
 });
 
 gulp.task('clean', function(cb) {
-  rimraf('./dist/', cb);
+  return rimraf('./dist/', cb);
 });
 
 gulp.task('watch', function() {
@@ -149,17 +149,17 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build', function (cb) {
-  runSequence('clean', ['sass', 'images', 'fonts', 'js', 'templates'], cb);
+  return runSequence('clean', ['sass', 'images', 'fonts', 'js', 'templates'], cb);
 });
 
 gulp.task('build:optimized', function(cb) {
-  runSequence('clean',
+  return runSequence('clean',
     ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized'],
     cb);
 });
 
 gulp.task('deploy', ['build:optimized'], function() {
-  gulp.src('')
+  return gulp.src('')
     .pipe(shell('scp -r dist/* dan@danrs.ch:/srv/wiki-battle/public_html/'))
     .on('finish', function() {
       process.stdout.write('Deployed to battle.schlosser.io/');
