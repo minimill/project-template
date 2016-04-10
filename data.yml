@@ -8,3 +8,4 @@ meta:
   domain: ""  # minimill.co
   url: ""  # https://minimill.co
   google_analytics_id: "" # UA-66637918-1
+  theme_color: "" # #FFFFFF
