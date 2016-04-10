@@ -19,7 +19,6 @@ var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var sass = require('gulp-sass');
 var scsslint = require('gulp-scss-lint');
-var shell = require('gulp-shell');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var yaml = require('js-yaml');
@@ -158,14 +157,6 @@ gulp.task('build:optimized', function(cb) {
   return runSequence('clean',
     ['sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized'],
     cb);
-});
-
-gulp.task('deploy', ['build:optimized'], function() {
-  return gulp.src('')
-    .pipe(shell('scp -r dist/* dan@danrs.ch:/srv/wiki-battle/public_html/'))
-    .on('finish', function() {
-      process.stdout.write('Deployed to battle.schlosser.io/');
-    });
 });
 
 // use default task to launch Browsersync and watch JS files

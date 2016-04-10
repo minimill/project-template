@@ -1,7 +1,11 @@
 Project Template
 ========================================
 
+#### _Because web development doesn't need to be a pain._
+
 The [Minimill](https://minimill.co) project template is the best way to build static sites fast.  With one command, build a static page using [Gulp][gulp], [Handlebars.js][handlebars], and [SCSS][scss].
+
+_Other Versions: [ES6](https://github.com/minimill/project-template/tree/es6), [Minimill internal](https://github.com/minimill/project-template/tree/minimill)_
 
 ## Features
 
@@ -60,10 +64,6 @@ Watchs for changes in local files and rebuilds parts of the site as necessary, i
 ### `gulp serve`
 
 Runs `gulp watch` in the background, and serves the `dist` directory at `localhost:3000` with automatic reloading using [Browsersync][browsersync].
-
-### `gulp deploy`
-
-For use by the Minimill team only.  Deploys to `work.minimill.co/TITLE/`, but won't do so without proper authentication.
 
 ## Structure
 
