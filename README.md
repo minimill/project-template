@@ -19,7 +19,7 @@ _Other Versions: [ES6](https://github.com/minimill/project-template/tree/es6), [
 
 All with one command from the terminal:
 
-```
+```bash
 gulp serve
 ```
 
@@ -27,17 +27,26 @@ gulp serve
 
 Install [npm][npm-install]. Then, install gulp:
 
-```
+```bash
 npm install -g gulp  # May require `sudo`
 ```
 
 ## Developing
 
-```
-npm install
-gem install scss_lint
+```bash
+npm install            # One time
+gem install scss_lint  # One time
 gulp serve
 ```
+
+## Reminders
+
+If you want to use this repo for your next project, make sure to make the following changes:
+
+1. Edit `data.yml`, filling in the HTML metadata associated with your site.
+2. Edit `package.json` providing a `name`, `version`, `description`, `license`, and `repository.url`.
+3. Remove the `.git` folder, so that you start from a fresh commit history.
+4. Edit `LICENSE.md` and `README.md` to your preference.
 
 ## Gulp Commands
 
@@ -67,7 +76,7 @@ Runs `gulp watch` in the background, and serves the `dist` directory at `localho
 
 ## Structure
 
-```
+```bash
 ├── Gulpfile.js       # Controls Gulp, used for building the website
 ├── README.md         # This file
 ├── data.yml          # Metadata associated with the site.
