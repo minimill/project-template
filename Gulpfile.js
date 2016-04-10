@@ -31,13 +31,13 @@ var path = require('path');
 handlebars.Handlebars.registerHelper(layouts(handlebars.Handlebars));
 
 gulp.task('sass:lint', function() {
-  return gulp.src('./src/sass/*.scss')
+  gulp.src('./src/sass/*.scss')
     .pipe(plumber())
     .pipe(scsslint());
 });
 
 gulp.task('sass:build', function() {
-  return gulp.src('./src/sass/**/style.scss')
+  gulp.src('./src/sass/**/style.scss')
     .pipe(rename({suffix: '.min'}))
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -66,7 +66,9 @@ gulp.task('sass', ['sass:lint', 'sass:build']);
 gulp.task('js:build', function() {
   return gulp.src('src/js/**/*.js')
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/js'));
 });
 
