@@ -84,7 +84,7 @@ Runs `gulp watch` in the background, and serves the `dist` directory at `localho
 
 [autoprefixer]: https://css-tricks.com/autoprefixer/
 [browsersync]: http://www.browsersync.io/
-[cssmin]: https://github.com/ben-eb/cssnano
+[cssnano]: http://cssnano.co/
 [gulp]: http://gulpjs.com/
 [handlebars]: http://handlebarsjs.com/
 [htmlmin]: https://github.com/kangax/html-minifier
