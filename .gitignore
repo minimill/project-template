@@ -1,2 +1,12 @@
 node_modules
-dist/*
+_site
+.jekyll-metadata
+
+# Responsive image output (resized images)
+_img/res/*
+!_img/res/raw/*
+
+# These folders contain built files
+/js
+/css
+/img

@@ -9,3 +9,13 @@ meta:
   url: ""  # https://minimill.co
   google_analytics_id: "" # UA-66637918-1
   theme_color: "" # #FFFFFF
+
+name: ""
+markdown: redcarpt
+highlighter: pygments
+exclude:
+  - node_modules
+  - gulpfile.js
+  - package.json
+  - README.md
+  - LICENSE.md

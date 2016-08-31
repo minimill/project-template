@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>{{ meta.title }}</title>
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ meta.title }}{% endif %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="{{ meta.description }}" />
     <meta name="robots" content="NOODP, index, follow" />
@@ -46,6 +46,7 @@
     <meta name="msapplication-square150x150logo" content="/img/favicon/mstile-150x150.png" />
     <meta name="msapplication-wide310x150logo" content="/img/favicon/mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="/img/favicon/mstile-310x310.png" />
+
     <!-- Chrome Theme Color -->
     <meta name="theme-color" content="{{ meta.theme_color }}">
 
@@ -60,7 +61,11 @@
         ga('send', 'pageview');
     </script>
 </head>
+{% if page.body_class %}
+<body class="{{ page.body_class }}">
+{% else %}
 <body>
-    {{#block "main"}}{{/block}}
+{% endif %}
+    {{ content }}
 </body>
 </html>
