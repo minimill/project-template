@@ -42,7 +42,7 @@ convert -help
 
 ## Usage
 
-#### Developing
+### Developing
 
 ```bash
 npm install            # One time
@@ -50,7 +50,7 @@ gem install scss_lint  # One time
 gulp serve
 ```
 
-#### A Note on Directory Structure and Compilation
+### A Note on Directory Structure and Compilation
 
 Because Gulp and Jekyll to not play nice historically, static assets need to be generated into two different folders:
 
@@ -60,7 +60,7 @@ Because Gulp and Jekyll to not play nice historically, static assets need to be 
 
 > **Note:** the root level `css/`, `js/`, and `img/` folders are in the `.gitignore` and are regularly deleted.  **Modifications to these folders may be lost without warning!** Instead, edit source files in the corresponding underscore-prefixed folders.
 
-#### Responsive Images
+### Responsive Images
 
 
 Responsive images live in the `/_img/res` folder. Place images that you wish to resize into the `/_img/res/raw` folder.  To resize them, run
