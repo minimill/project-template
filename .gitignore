@@ -7,6 +7,7 @@ _site
 
 # Responsive image output (resized images)
 _img/res/*
+!_img/res/raw/
 !_img/res/raw/*
 _data/responsiveMetadata.json
 
