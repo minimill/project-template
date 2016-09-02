@@ -24,6 +24,7 @@ var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var scsslint = require('gulp-scss-lint');
 var shell = require('gulp-shell');
+var sizeOf = require('image-size');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 
@@ -134,7 +135,9 @@ gulp.task('images:optimized',  /* ['responsive'], */ function() {
  ** Responsive Images **
  ***********************/
 
-gulp.task('responsive', ['responsive:clean', 'responsive:resize']);
+gulp.task('responsive', function (cb) {
+  return runSequence('responsive:clean', ['responsive:resize', 'responsive:metadata'], cb);
+});
 
 gulp.task('responsive:resize', function() {
   return es.merge(responsiveSizes.map(function(size) {
@@ -149,6 +152,24 @@ gulp.task('responsive:resize', function() {
       }))
       .pipe(gulp.dest('./_img/res/' + size + '/'));
   }));
+});
+
+gulp.task('responsive:metadata', function() {
+  var metadata = {
+    _NOTE: "This file is generated in gulpfile.js, in the responsive:metadata task.",
+    aspectRatios: {},
+    sizes: responsiveSizes,
+  };
+  return gulp.src('./_img/res/raw/**/*.{jpg,png,JPG,PNG}')
+    .pipe(foreach(function(stream, file) {
+      var key = file.path.replace(/.*\/_img\/res\/raw\//, '')
+      var dimensions = sizeOf(file.path);
+      metadata.aspectRatios[key] = Number((dimensions.width / dimensions.height).toFixed(3));
+      return stream;
+    }))
+    .on('finish', function() {
+      fs.writeFileSync('./_data/responsiveMetadata.json', JSON.stringify(metadata, null, 2))
+    });
 });
 
 gulp.task('responsive:clean', function(cb) {

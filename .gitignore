@@ -1,10 +1,14 @@
+# JavaScript
 node_modules
+
+# Jekyll
 _site
 .jekyll-metadata
 
 # Responsive image output (resized images)
 _img/res/*
 !_img/res/raw/*
+_data/responsiveMetadata.json
 
 # These folders contain built files
 /js
