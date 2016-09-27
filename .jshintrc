@@ -1,3 +1,4 @@
 {
-    "browserify": true
+    "browserify": true,
+    "esversion": 6
 }
