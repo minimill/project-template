@@ -25,6 +25,11 @@ var yaml = require('js-yaml');
 var rimraf = require('rimraf');
 var runSequence = require('run-sequence');
 var path = require('path');
+var webpack = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+var webpackConfig = require('./webpack.config');
+var bundler = webpack(webpackConfig);
 
 
 handlebars.Handlebars.registerHelper(layouts(handlebars.Handlebars));
@@ -62,13 +67,24 @@ gulp.task('sass:optimized', function() {
 
 gulp.task('sass', ['sass:lint', 'sass:build']);
 
-gulp.task('js:build', function() {
-  return gulp.src('src/js/**/*.js')
-    .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('dist/js'));
+gulp.task('webpack:build', function(callback) {
+  // modify some webpack config options
+  var myConfig = Object.create(webpackConfig);
+  myConfig.plugins = myConfig.plugins.concat(
+    new webpack.DefinePlugin({
+      "process.env": {
+        // This has effect on the react lib size
+        "NODE_ENV": JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  );
+
+  // run webpack
+  webpack(myConfig, function(err, stats) {
+    callback();
+  });
 });
 
 gulp.task('js:lint', function() {
@@ -79,7 +95,7 @@ gulp.task('js:lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('js', ['js:lint', 'js:build']);
+gulp.task('js', ['js:lint', 'webpack:build']);
 
 gulp.task('images', function() {
   return gulp.src('src/img/**/*')
@@ -171,7 +187,30 @@ gulp.task('serve', ['build'], function() {
     },
     server: {
       baseDir: './dist',
+      middleware: [
+        webpackDevMiddleware(bundler, {
+          // IMPORTANT: dev middleware can't access config, so we should
+          // provide publicPath by ourselves
+          publicPath: webpackConfig.output.publicPath,
+
+          // pretty colored output
+          stats: { colors: true }
+
+          // for other settings see
+          // http://webpack.github.io/docs/webpack-dev-middleware.html
+        }),
+
+        // bundler should be the same as above
+        webpackHotMiddleware(bundler)
+      ]
     },
+
+    // no need to watch '*.js' here, webpack will take care of it for us,
+    // including full page reloads if HMR won't work
+    files: [
+      './dist/css/*.css',
+      './dist/*.html'
+    ]
   });
 
   // add browserSync.reload to the tasks array to make
