@@ -6,6 +6,7 @@ var cache = require('gulp-cached');
 var cp = require('child_process');
 var cssnano = require('gulp-cssnano');
 var cache = require('gulp-cache');
+var changed = require('gulp-changed');
 var del = require('del');
 var es = require('event-stream');
 var foreach = require('gulp-foreach');
@@ -15,8 +16,11 @@ var imagemin = require('gulp-imagemin');
 var imageResize = require('gulp-image-resize');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
+var os = require('os');
+var parallel = require('concurrent-transform');
 var path = require('path');
 var plumber = require('gulp-plumber');
+var print = require('gulp-print');
 var reload = browserSync.reload;
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
@@ -32,7 +36,7 @@ var jekyll = process.platform === 'win32' ? 'jekyll.bat' : 'jekyll';
 var messages = {
   jekyllBuild: '<span style="color: grey">Running: </span> $ jekyll build'
 };
-var responsiveSizes = [20, 200, 800, 1600];
+var responsiveSizes = [20, 400, 800, 1600];
 
 /************
  **  SCSS  **
@@ -106,19 +110,18 @@ gulp.task('js:lint', function() {
  ** Optimized Images **
  **********************/
 
-gulp.task('images', /* ['responsive'], */ function() {
+gulp.task('images', /*['responsive'],*/ function() {
+  var dest = './img/';
   return gulp.src('./_img/**/*')
     .pipe(plumber())
-    .pipe(cache(imagemin({
-      progressive: true,
-    })))
+    .pipe(changed(dest))
     .pipe(gulp.dest('./_site/img/'))
     .pipe(reload({stream: true}))
-    .pipe(gulp.dest('./img/'));
+    .pipe(gulp.dest(dest));
 });
 
-gulp.task('images:optimized',  /* ['responsive'], */ function() {
-  return gulp.src('./img/res/**/*')
+gulp.task('images:optimized',  /*['responsive'],*/ function() {
+  return gulp.src('./_img/**/*')
     .pipe(plumber())
     .pipe(cache(imagemin({
       interlaced: true,
@@ -136,31 +139,59 @@ gulp.task('images:optimized',  /* ['responsive'], */ function() {
  ***********************/
 
 gulp.task('responsive', function (cb) {
-  return runSequence('responsive:clean', ['responsive:resize', 'responsive:metadata'], cb);
+  return runSequence('responsive:clean', ['responsive:resize', 'responsive:metadata'], 'images', cb);
 });
 
 gulp.task('responsive:resize', function() {
+  var srcSuffix, destSuffix;
+
+  // Note: process.argv = ['node', 'path/to/gulpfile.js', 'responsive', '--dir', 'subPathIfProvided']
+  var idx = process.argv.indexOf('--dir');
+  if (idx > -1) {
+    // Only process subdirectory
+    var srcPath = path.join('./_img/res/raw/', process.argv[idx + 1]);
+    if (fs.lstatSync(srcPath).isDirectory()) {
+      srcSuffix = path.join(process.argv[idx + 1], '/**/*');
+      destSuffix = process.argv[idx + 1];
+    } else {
+      srcSuffix = process.argv[idx + 1];
+      destSuffix = process.argv[idx + 1];
+    }
+  } else {
+    srcSuffix = '**/*';
+    destSuffix = '';
+  }
+
   return es.merge(responsiveSizes.map(function(size) {
-    return gulp.src('./_img/res/raw/**/*')
+    var dest = './_img/res/' + size + '/' + destSuffix;
+    return gulp.src('./_img/res/raw/' + srcSuffix)
       .pipe(plumber())
-      .pipe(imageResize({
-        height: size,
-        width: 0,
-        crop: false,
-        upscale: false,
-        imageMagick: true
+      .pipe(changed(dest))
+      .pipe(parallel(
+        imageResize({
+          height: size,
+          width: 0,
+          crop: false,
+          upscale: false,
+          imageMagick: true
+        }),
+        os.cpus().length
+      ))
+      .pipe(print(function(filepath) {
+        return "Created: " + filepath.replace('/raw/', '/' + size + '/');
       }))
-      .pipe(gulp.dest('./_img/res/' + size + '/'));
+      .pipe(gulp.dest(dest));
   }));
 });
 
 gulp.task('responsive:metadata', function() {
+  // We always process all images.
   var metadata = {
     _NOTE: "This file is generated in gulpfile.js, in the responsive:metadata task.",
     aspectRatios: {},
     sizes: responsiveSizes,
   };
-  return gulp.src('./_img/res/raw/**/*.{jpg,png,JPG,PNG}')
+  return gulp.src('./_img/res/raw/**/*.{jpg,JPG,png,PNG,jpeg,JPEG,gif,GIF}')
     .pipe(foreach(function(stream, file) {
       var key = file.path.replace(/.*\/_img\/res\/raw\//, '');
       var dimensions = sizeOf(file.path);
@@ -173,7 +204,15 @@ gulp.task('responsive:metadata', function() {
 });
 
 gulp.task('responsive:clean', function(cb) {
-  return del(['_img/res/*', '!_img/res/raw/', '!_img/res/raw/**'], cb);
+  // Note: process.argv = ['node', 'path/to/gulpfile.js', 'responsive', '--dir', 'subPathIfProvided']
+  var idx = process.argv.indexOf('--dir');
+  var folders = (idx > -1) ? (
+    responsiveSizes.map(function(size) {
+      return '_img/res/' + size + '/' + process.argv[idx + 1];
+    })
+  ) : (['_img/res/*', '!_img/res/raw/', '!_img/res/raw/**']);
+
+  return del(folders, cb);
 });
 
 /************
@@ -200,16 +239,17 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('deploy', ['build:optimized'], function() {
-  gulp.src('')
-    .pipe(shell('scp -r _site/* root@minimill.co:/srv/work/private_html/TITLE/'))
+  return gulp.src('')
+    .pipe(shell('rsync -avuzh _site/* dan:/srv/schlosser.io/public_html/'))
     .on('finish', function() {
-      process.stdout.write('Deployed to work.minimill.co/TITLE/');
+      process.stdout.write('Deployed to schlosser.io\n');
     });
 });
 
 gulp.task('watch', function() {
   gulp.watch([
-    './*.html',
+    './**/*.html',
+    '!./_site/**/*.html',
     './_layouts/*.html',
     './_includes/*.html',
     './_drafts/*.html',
@@ -222,12 +262,13 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build', function (cb) {
-  return runSequence('clean', ['scss', 'images', 'js', 'jekyll'], cb);
+  return runSequence('clean', ['scss', 'images', 'js'], 'jekyll', cb);
 });
 
 gulp.task('build:optimized', function(cb) {
   return runSequence('clean',
-    ['scss:optimized', 'images:optimized', /*'responsive',*/ 'js', 'jekyll'],
+    ['scss:optimized', 'images', 'js'],
+    'jekyll',
     cb);
 });
 

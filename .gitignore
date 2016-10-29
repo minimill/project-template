@@ -9,6 +9,7 @@ _site
 _img/res/*
 !_img/res/raw/
 !_img/res/raw/*
+_img/res/raw/.DS_Store
 _data/responsiveMetadata.json
 
 # These folders contain built files

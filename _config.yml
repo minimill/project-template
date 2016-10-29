@@ -13,9 +13,16 @@ meta:
 name: ""
 markdown: redcarpt
 highlighter: pygments
+permalink: "/:categories/:title/"
+
+gems:
+  - jekyll-redirect-from
+
 exclude:
   - node_modules
-  - gulpfile.js
+  - Gulpfile.js
+  - Gemfile
+  - Gemfile.lock
   - package.json
   - README.md
   - LICENSE.md

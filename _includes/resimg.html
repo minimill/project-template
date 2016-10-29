@@ -1,0 +1,15 @@
+{% if include.link %}
+<a href="{{ include.link }}" {% if include.target %}target="{{ include.target }}{% endif %}">
+{% endif %}
+<figure class="progressive-image {{ include.class }}"
+        data-small="/img/res/400/{{ include.src }}"
+        data-medium="/img/res/800/{{ include.src }}"
+        data-large="/img/res/1600/{{ include.src }}">
+    <div class="aspect-ratio-holder"
+        style="padding-bottom: {{1.0 | divided_by: site.data.responsiveMetadata.aspectRatios[include.src] | times: 100 }}%"></div>
+    <img class="thumbnail"
+        src="/img/res/20/{{ include.src }}"alt="">
+</figure>
+{% if include.link %}
+</a>
+{% endif %}
