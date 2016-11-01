@@ -9,7 +9,7 @@ html, body {
   position: relative;
 }
 
-*, *:before, *:after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -23,7 +23,7 @@ img {
 }
 
 @mixin clearfix {
-  &:after {
+  &::after {
     clear: both;
     content: ' ';
     display: block;

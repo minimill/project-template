@@ -1,0 +1,14 @@
+---
+layout: base
+---
+{% include header.html %}
+{{ content }}
+<script type="text/javascript" src="/js/lib/progressive-image.js"></script>
+<script type="text/javascript">
+    // Enables progressive, responsive images.
+    var figures = document.getElementsByClassName('progressive-image');
+    for (var i = 0; i < figures.length; i++) {
+        new ProgressiveImage(figures[i]);
+    }
+</script>
+{% include footer.html %}

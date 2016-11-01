@@ -1,0 +1,72 @@
+body {
+  .scrim {
+    background-color: $white;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: 0.3s ease opacity;
+    z-index: 500;
+  }
+
+  &.viewer-open .scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
+.progressive-image {
+  overflow: hidden;
+  position: relative;
+  transform-origin: 0 0;
+  transition: 0.3s ease transform;
+
+  .aspect-ratio-holder {
+    height: 0;
+    width: 100%;
+  }
+
+  &.with-viewer {
+    cursor: zoom-in;
+  }
+
+  img {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: 0.3s ease opacity;
+    z-index: 2;
+
+    &.thumbnail {
+      filter: blur(30px);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  &.loaded {
+    img {
+      opacity: 1;
+
+      &.thumbnail {
+        opacity: 0;
+      }
+    }
+  }
+
+  &.loaded-full {
+    img {
+      opacity: 1;
+
+      &.thumbnail, &.full {
+        opacity: 0;
+      }
+    }
+  }
+}

@@ -6,36 +6,30 @@ $regular: 400;
 $light: 300;
 
 $sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$monospace: monospace;
 
 h1, %h1 {
-  font-size: 2.25rem;
-  font-weight: $light;
-  letter-spacing: 0.5px;
-  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
 }
 
 h2, %h2 {
-  font-size: 1rem;
-  font-weight: $medium;
-  letter-spacing: 4px;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
+  font-size: 2rem;
 }
 
 h3, %h3 {
   font-size: 1.5rem;
-  letter-spacing: 0.5px;
 }
 
 h4, %h4 {
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
+  font-size: 1rem;
 }
 
 h5, %h5 {
+  font-size: 0.875rem;
+}
+
+h6, %h6 {
   font-size: 0.75rem;
-  text-transform: uppercase;
 }
 
 p, .p {
@@ -43,15 +37,9 @@ p, .p {
 }
 
 strong {
-  font-weight: $medium;
+  font-weight: $bold;
 }
 
-@media screen and (max-width: $phone-landscape-max) {
-  h1, %h1 {
-    font-size: 1.75rem;
-  }
-
-  h4, %h4 {
-    font-size: 1.5rem;
-  }
+code {
+  font-family: $monospace;
 }

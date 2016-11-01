@@ -1,5 +1,12 @@
 ---
-layout: base
+layout: default
 ---
 
 <h1>Hello World!</h1>
+
+<p>The following image is both progressive (loads with a placeholder) and responisve (loads the correcet image size depending on screen resolution). If all you dont' see an image below, make sure that you run <code>gulp responsive</code> to generate the different image versions. This must be done whenever you add new images (resizing images when you run <code>gulp serve</code> would be extremely slow).</p>
+
+<div style="max-width: 500px">
+    {% include resimg.html src="example-image.jpg" class="with-viewer" %}
+</div>
+
