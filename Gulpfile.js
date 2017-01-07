@@ -143,7 +143,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs'], ['templates'], reload);
+  gulp.watch(['./src/templates/**/*.hbs', './src/partials/**/*.hbs', 'data.yml'], ['templates'], reload);
   gulp.watch('./src/sass/**/*.scss', ['sass'], reload);
   gulp.watch('./src/img/**/*', ['images'], reload);
   gulp.watch(['./src/js/**/*.js', 'Gulpfile.js'], ['js'], reload);
