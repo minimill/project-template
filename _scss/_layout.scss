@@ -8,6 +8,10 @@ $content-width: 58.75rem;
   width: 90%;
 }
 
+header, footer {
+  padding: 1rem 0;
+}
+
 @media screen and (max-width: $phone-landscape-max) {
   .content {
     padding: 0;

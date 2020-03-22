@@ -15,7 +15,9 @@ markdown: redcarpt
 highlighter: pygments
 permalink: "/:categories/:title/"
 
-gems:
+# Build info
+incremental: true
+plugins:
   - jekyll-redirect-from
 
 exclude:
@@ -25,6 +27,6 @@ exclude:
   - Gemfile.lock
   - package.json
   - package-lock.json
-  - redirects.json
   - README.md
   - LICENSE.md
+  - yarn.lock

@@ -1,25 +1,25 @@
 'use strict';
 
-var autoprefixer = require('gulp-autoprefixer');
+var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
-var cache = require('gulp-cached');
 var cp = require('child_process');
-var cssnano = require('gulp-cssnano');
+var cssnano = require('cssnano');
 var cache = require('gulp-cache');
 var changed = require('gulp-changed');
 var del = require('del');
 var es = require('event-stream');
-var foreach = require('gulp-foreach');
+var eslint = require('gulp-eslint');
+var flatmap = require('gulp-flatmap');
 var fs = require('fs');
 var gm = require('gulp-gm');
 var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
-var eslint = require('gulp-eslint');
 var jshint = require('gulp-jshint');
 var os = require('os');
 var parallel = require('concurrent-transform');
 var path = require('path');
 var plumber = require('gulp-plumber');
+var postcss = require('gulp-postcss');
 var print = require('gulp-print');
 var reload = browserSync.reload;
 var rename = require('gulp-rename');
@@ -46,6 +46,10 @@ gulp.task('scss:lint', function() {
 });
 
 gulp.task('scss:build', function() {
+  var plugins = [
+    autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }),
+    cssnano({compatibility: 'ie8'}),
+  ];
   return gulp.src('./_scss/style.scss')
     .pipe(plumber())
     .pipe(rename({suffix: '.min'}))
@@ -55,7 +59,7 @@ gulp.task('scss:build', function() {
       onError: browserSync.notify,
       outputStyle: 'compressed',
     }))
-    .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
+    .pipe(postcss(plugins))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./_site/css/'))
     .pipe(reload({stream: true}))
@@ -65,6 +69,10 @@ gulp.task('scss:build', function() {
 gulp.task('scss', gulp.series('scss:lint', 'scss:build'));
 
 gulp.task('scss:optimized', function() {
+  var plugins = [
+    autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }),
+    cssnano({compatibility: 'ie8'}),
+  ];
   return gulp.src('./_scss/style.scss')
     .pipe(plumber())
     .pipe(rename({suffix: '.min'}))
@@ -72,8 +80,7 @@ gulp.task('scss:optimized', function() {
       includePaths: ['scss'],
       outputStyle: 'compressed',
     }))
-    .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
-    .pipe(cssnano({compatibility: 'ie8'}))
+    .pipe(postcss(plugins))
     .pipe(gulp.dest('./_site/css/'))
     .pipe(reload({stream: true}))
     .pipe(gulp.dest('./css/'));
@@ -141,13 +148,14 @@ gulp.task('responsive:resize', function(done) {
   var idx = process.argv.indexOf('--dir');
   if (idx > -1) {
     // Only process subdirectory
-    var srcPath = path.join('./_img/res/raw/', process.argv[idx + 1]);
-    if (fs.lstatSync(srcPath).isDirectory()) {
-      srcSuffix = path.join(process.argv[idx + 1], '/**/*');
-      destSuffix = process.argv[idx + 1];
+    var rawSrc = process.argv[idx + 1];
+    var srcPath = path.join('./_img/res/raw/', rawSrc);
+    if (fs.lstatSync(path.resolve(srcPath)).isDirectory()) {
+      srcSuffix = path.join(rawSrc, '/**/*');
+      destSuffix = rawSrc;
     } else {
-      srcSuffix = process.argv[idx + 1];
-      destSuffix = process.argv[idx + 1];
+      srcSuffix = rawSrc;
+      destSuffix = rawSrc.substring(0, rawSrc.lastIndexOf("/"));
     }
   } else {
     srcSuffix = '**/*';
@@ -161,9 +169,11 @@ gulp.task('responsive:resize', function(done) {
       .pipe(changed(dest))
       .pipe(parallel(
         gm(function(gmfile) {
-          return gmfile.resize(null, size); // set height, variable width;
-        }, {
-          imageMagick: true
+          if (gmfile.source.toLowerCase().endsWith("gif")) {
+            return gmfile; // Don't resize GIFs because...GraphicsMagick. :(
+          } else {
+            return gmfile.resize(null, size); // set height, variable width;
+          }
         }),
         os.cpus().length
       ))
@@ -176,23 +186,28 @@ gulp.task('responsive:resize', function(done) {
   done();
 });
 
-gulp.task('responsive:metadata', function(done) {
+gulp.task('responsive:metadata', function() {
   // We always process all images.
   var metadata = {
     _NOTE: "This file is generated in gulpfile.js, in the responsive:metadata task.",
     aspectRatios: {},
     sizes: responsiveSizes,
   };
-  gulp.src('./_img/res/raw/**/*.{jpg,JPG,png,PNG,jpeg,JPEG,gif,GIF}')
-    .pipe(foreach(function(stream, file) {
-      var key = file.path.replace(/.*\/_img\/res\/raw\//, '');
-      var dimensions = sizeOf(file.path);
-      metadata.aspectRatios[key] = Number((dimensions.width / dimensions.height).toFixed(3));
+  return gulp.src('./_img/res/raw/**/*.{jpg,JPG,png,PNG,jpeg,JPEG,gif,GIF}')
+    .pipe(flatmap(function(stream, file) {
+      fs.readFile(file.path, function(err, buf) {
+        if (err) {
+          process.stdout.write(err);
+          return;
+        }
+        var key = file.path.replace(/.*\/_img\/res\/raw\//, '');
+        var dimensions = sizeOf(buf);
+        metadata.aspectRatios[key] = Number((dimensions.width / dimensions.height).toFixed(3));
+      });
       return stream;
     }))
     .on('finish', function() {
       fs.writeFileSync('./_data/responsiveMetadata.json', JSON.stringify(metadata, null, 2));
-      done();
     });
 });
 
@@ -208,7 +223,12 @@ gulp.task('responsive:clean', function(done) {
   return del(folders, done);
 });
 
-gulp.task('responsive', gulp.series('responsive:clean', gulp.parallel('responsive:resize', 'responsive:metadata'), 'images'));
+gulp.task('responsive',
+  gulp.series(
+    'responsive:clean',
+    gulp.parallel('responsive:resize', 'responsive:metadata')
+  )
+);
 
 /************
  ** Jekyll **
@@ -245,17 +265,16 @@ gulp.task('watch', function() {
     './_data/*',
     './_config.yml'], gulp.series('jekyll:rebuild'));
   gulp.watch('./_scss/**/*.scss', gulp.series('scss'));
-  gulp.watch('./img/res/**/*', gulp.series('images'));
   gulp.watch(['./_js/**/*.js', 'Gulpfile.js'], gulp.series('js'));
 });
 
-gulp.task('build', gulp.series('clean', gulp.parallel('scss', 'images', 'js'), 'jekyll'));
+gulp.task('build', gulp.series('clean', gulp.parallel('scss', 'js'), 'jekyll'));
 
 gulp.task('build:optimized', gulp.series('clean', gulp.parallel('scss:optimized', 'images', 'js'), 'jekyll'));
 
 gulp.task('deploy:rsync', function(done) {
-  cp.exec('rsync -avuzh _site/* dan:/srv/[[website]]/public_html/', function() {
-    process.stdout.write('Deployed to [[website]]\n');
+  cp.exec('chmod -R 775 _site && rsync -avuzh _site/* dan:/srv/schlosser.io/public_html/', function() {
+    process.stdout.write('Deployed to schlosser.io\n');
     done();
   })
   .stdout.on('data', function(data) {
@@ -277,6 +296,9 @@ gulp.task('serve', gulp.series('build', function(done) {
     },
     server: {
       baseDir: '_site',
+      routes: {
+        "/img": "_img",
+      }
     },
   });
 
