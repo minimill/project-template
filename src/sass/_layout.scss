@@ -1,7 +1,6 @@
 $content-width: 58.75rem;
 
 .content {
-  @include clearfix;
   margin: 0 auto;
   max-width: $content-width;
   padding: 0 0.625rem;

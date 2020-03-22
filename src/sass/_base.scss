@@ -9,7 +9,7 @@ html, body {
   position: relative;
 }
 
-*, *:after, *:before {
+*, *::after, *::before {
   box-sizing: border-box;
 }
 
@@ -20,12 +20,4 @@ a, a:hover {
 
 img {
   max-width: 100%;
-}
-
-@mixin clearfix {
-  &:after {
-    clear: both;
-    content: ' ';
-    display: block;
-  }
 }
