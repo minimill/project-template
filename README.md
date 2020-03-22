@@ -26,10 +26,10 @@ gulp serve
 
 ## Setup
 
-Install [npm][npm-install]. Then, install gulp:
+Install [yarn][yarn-install]. Then, install gulp:
 
 ```bash
-npm install -g gulp  # May require `sudo`
+yarn global add gulp  # May require `sudo`
 ```
 
 Finally, install [ImageMagick][imagemagick]. You have done so successfully if you can run 
@@ -38,16 +38,15 @@ Finally, install [ImageMagick][imagemagick]. You have done so successfully if yo
 convert -help
 ```
 
- without any errors.
+without any errors.
 
 ## Usage
 
 ### Developing
 
 ```bash
-npm install            # One time
-gem install scss_lint  # One time
-gulp responsive        # Each time you add images to _img/res/raw
+yarn                   # One time
+bundle install         # One time
 gulp serve
 ```
 
