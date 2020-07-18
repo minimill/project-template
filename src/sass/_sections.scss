@@ -1,0 +1,246 @@
+///////////////////////////////////////////////////////////////////////////////
+// Adding a new page:
+//
+// 1. Add entries to @mixin color-backgrounds
+// 2. Add entry to body.page-<yourpage> for the overscroll
+// 3. Add the new project to $projects
+// 4. Add a new variable called $<yourpage>-sections and list out the sections
+//    on that page, IN ORDER
+// 5. Add your new $<yourpage>-sections variable to $sections
+// 6. Define your new section content styles in @mixin section
+//
+///////////////////////////////////////////////////////////////////////////////
+
+/////////////////
+// Backgrounds //
+/////////////////
+
+// @mixin color-backgrounds
+//
+// Controls the background color of sections.  This is defined as a mixin so
+// that it can be used to both style the animated backgrounds, and the sections
+// themselves (on mobile).
+@mixin color-backgrounds($prefix) {
+  display: block;
+
+  // Agtech Hero
+  .#{$prefix}-agtech-hero { background-color: $light-red; }
+  .#{$prefix}-agtech-footer,
+  .#{$prefix}-agtech-team { background-color: $off-white; }
+}
+
+.backgrounds {
+  @include color-backgrounds('background');
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 0;
+
+  li {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: 0.5s ease opacity;;
+    width: 100%;
+    z-index: 0;
+  }
+}
+
+[class*='page-'] .backgrounds .background-agtech-hero {
+  opacity: 0;
+}
+
+[class*='in-section'] .backgrounds li {
+  opacity: 1;
+}
+
+/////////////////////
+// Body Overscroll //
+/////////////////////
+
+// Set the body background color at the top and
+// bottom of each page, so that overscrolls look good.
+body {
+
+  // Top
+  background-color: $light-red;
+
+  // Bottom
+  &.in-section-work-identities,
+  &.in-section-home-footer, {
+    background-color: $light-red;
+  }
+}
+
+//////////////
+// Sections //
+//////////////
+
+// List of sections on each page, IN ORDER
+
+$agtech-sections: 'agtech-hero', 'agtech-team', 'agtech-footer';
+
+// List of all sets of sections
+$sections: $agtech-sections;
+
+.sections {
+  position: relative;
+  transition: 0.5s ease opacity;
+  z-index: 2;
+
+  .animated-section {
+    overflow: hidden;
+    transition: 0.5s ease opacity;
+  }
+}
+
+// Ensure that if we are changing a property on scroll,
+// we are transitioning between values.
+.sc-text, .sc-accent {
+  color: $white;
+  transition: 0.5s ease color;
+}
+
+.sbg-text, .sbg-accent {
+  background-color: $white;
+  transition: 0.5s ease background-color;
+}
+
+.sbd-accent {
+  border-color: $white;
+  transition: 0.5s ease border-color;
+}
+
+// @mixin section-style
+//
+// Defines what will change about the content of a section. This mixin is
+// applied to every possible section setup, with different text/accent colors.
+@mixin section-style($text, $accent, $background) {
+
+  // Scroll color
+  .sc-text {
+    color: $text;
+  }
+
+  .sc-accent {
+    color: $accent;
+  }
+
+  .sc-h-children-accent:hover .sc-text {
+    color: $accent;
+  }
+
+  // Scroll background-color
+  .sbg-accent {
+    background-color: $accent;
+  }
+
+  .sbg-text {
+    background-color: $text;
+  }
+
+  // Scroll border-color
+  .sbd-accent {
+    border-color: $accent;
+  }
+
+  // Scroll SVG fill color
+  .sf-svg-accent path, .sf-svg-accent rect {
+    fill: $accent;
+  }
+
+  .sf-svg-text path, .sf-svg-text rect {
+    fill: $text;
+  }
+}
+
+// @mixin section
+//
+// This mixin will include some variation of @mixin section-style, depending on
+// the passed ID. Different IDs will result in different text/accent colors.
+@mixin section($id) {
+  @if contains(('agtech-hero'), $id) {
+    @include section-style($dark-green, $dark-green, $light-red);
+
+  } @else if contains(('agtech-team', 'agtech-footer'), $id) {
+    @include section-style($dark-green, $dark-green, $off-white);
+  }
+}
+
+
+///////////////////////////////
+// Section Style Application //
+///////////////////////////////
+
+// Used below.  By extending instead of just including `opacity: 0;` directly,
+// SCSS will combine the rules, auto-merging them all.
+%hidden { opacity: 0; }
+%visible { opacity: 1; }
+
+@each $page in $sections {
+  // If you're in $current-section, that section, and the sections above and
+  // below it, should all be styled like %section-#{$current-section}
+  @each $current-section in $page {
+    // Compute the current index
+    $index: index($page, $current-section);
+
+    .in-section-#{$current-section} {
+
+      // Previous section
+      @if ($index > 1) {
+        .section-#{nth($page, $index - 1)} {
+          @include section($current-section);
+        }
+      }
+
+      // Current Section
+      .section-#{$current-section} {
+        @include section($current-section);
+      }
+
+      // Next section
+      @if ($index < length($page)) {
+        .section-#{nth($page, $index + 1)} {
+          @include section($current-section);
+        }
+      }
+
+      // All backgrounds after the current section should be invisible.
+      .backgrounds .background-#{$current-section} ~ li {
+        @extend %hidden;
+      }
+    }
+  }
+}
+
+.is-mobile {
+  .sc-text, .sc-accent,
+  .sbg-text, .sbg-accent,
+  .sbd-accent,
+  .sf-svg-accent path,
+  .sf-svg-accent rect,
+  .sf-svg-text path,
+  .sf-svg-text rect,
+  .backgrounds li {
+    transition: none !important;
+  }
+}
+
+
+@media screen and (max-width: $tablet-landscape-max) {
+  .sections {
+    @include color-backgrounds('section');
+  }
+
+  @each $page in $sections {
+    @each $current-section in $page {
+      .section-#{$current-section} {
+        @include section($current-section);
+      }
+    }
+  }
+}

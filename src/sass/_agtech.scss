@@ -1,0 +1,169 @@
+.blocks {
+  display: flex;
+  padding: 3rem 0 6rem;
+  max-width: $content-width;
+  align-items: center;;
+}
+
+.content-block {
+  flex: 2;
+  padding-right: 3rem;
+}
+
+.team-list .team-member .image-wrapper::after, .companion-block::after {
+  transition: 0.5s ease border-color;
+}
+
+.in-section-agtech-hero {
+  .companion-block::after {
+    border-left-color: $light-red;
+    border-top-color: $light-red;
+  }
+  .team-list .team-member .image-wrapper::after {
+    border-right-color: $light-red;
+    border-bottom-color: $light-red;
+  }
+}
+
+.in-section-agtech-team,
+.in-section-agtech-footer {
+  .companion-block::after {
+    border-left-color: $off-white;
+    border-top-color: $off-white;
+  }
+  .team-list .team-member .image-wrapper::after {
+    border-right-color: $off-white;
+    border-bottom-color: $off-white;
+  }
+}
+
+.companion-block {
+  flex: 1;
+  border-radius: 8px;
+  position: relative;
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4rem;
+    height: 4rem;
+    border-top-left-radius: 8px;
+    z-index: 10;;
+    border-top: 2px dashed $dark-green;
+    border-left: 2px dashed $dark-green;
+  }
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    border-left: 2.25rem solid $light-red;
+    border-top: 2.25rem solid $light-red;
+    border-bottom: 2.25rem solid transparent;
+    border-right: 2.25rem solid transparent;
+  }
+
+  i {
+    display: block;
+    border-radius: 8px;
+    width: 100%;
+    padding-bottom: 100%;
+    height: 0;
+    background-position: center;
+    background-size: cover;;
+  }
+}
+
+header {
+  max-width: 40rem;
+}
+
+footer {
+  margin: 6rem 0 0;
+  padding: 6rem 0;
+  background-color: $light-red;
+}
+
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -1.5rem;
+  padding: 9rem 0;
+
+  .team-member {
+    width: 25%;
+    padding: 0 1.5rem;
+    margin-top: -6rem;
+
+    &:nth-child(4n+2) {
+      padding-top: 3rem;
+    }
+
+    &:nth-child(4n+3) {
+      padding-top: 6rem;
+    }
+
+    &:nth-child(4n+4) {
+      padding-top: 9rem;
+    }
+
+    h3 {
+      margin: 0.5rem 0;
+    }
+
+    .image-wrapper {
+      position: relative;
+
+      &::after {
+        content: ' ';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 9;
+        border-right: 1.5rem solid $off-white;
+        border-bottom: 1.5rem solid $off-white;
+        border-top: 1.5rem solid transparent;
+        border-left: 1.5rem solid transparent;
+      }
+
+      &::before {
+        content: ' ';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-bottom-right-radius: 8px;
+        z-index: 10;;
+        border-right: 2px dashed $dark-green;
+        border-bottom: 2px dashed $dark-green;
+      }
+    }
+
+    img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+  }
+}
+
+.button {
+  background-color: $dark-green;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+  margin: 1.5rem 0;
+  color: $off-white;
+  border-radius: 4px;
+  transition: 0.3s ease opacity;
+
+  &:hover {
+    opacity: 0.8;
+    color: $off-white;
+  }
+}

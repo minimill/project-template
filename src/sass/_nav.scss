@@ -1,0 +1,23 @@
+@import 'typography';
+
+nav {
+  padding: 2.25rem 0;
+}
+
+.nav-items {
+  display: flex;
+
+  .nav-item {
+    @extend %h5;
+    height: 2rem;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  svg {
+    display: block;
+    height: 1.5rem;
+  }
+}

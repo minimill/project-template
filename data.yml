@@ -9,3 +9,28 @@ meta:
   url: ""  # https://minimill.co
   google_analytics_id: "" # UA-66637918-1
   theme_color: "" # #FFFFFF
+
+team:
+- name: Athena Kan
+  profile: /img/team/athena.jpeg
+- name: Dan Schlosser
+  profile: /img/team/dan.jpg
+- name: Hannah Kerner
+  profile: /img/team/hannah.jpeg
+- name: Harry Bleyan
+  profile: /img/team/harry.jpg
+- name: Jenna Fahle
+  profile: /img/team/jenna.jpeg
+- name: Mackenzie Burnett
+  profile: /img/team/mackenzie.jpeg
+- name: Maya Caddle
+  profile: /img/team/maya.jpeg
+- name: Nathalyn Nunoo
+  profile: /img/team/nathalyn.jpg
+- name: Nina Lu
+  profile: /img/team/nina.jpg
+- name: Tena Nevidal
+  profile: /img/team/tena.jpeg
+- name: Uzoma Ayogu
+  profile: /img/team/uzuma.jpg
+

@@ -1,20 +1,20 @@
-$content-width: 58.75rem;
+$content-width: 72rem;
 
 .content {
   margin: 0 auto;
   max-width: $content-width;
-  padding: 0 0.625rem;
-  width: 90%;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+section {
+  margin: 3rem 0;
+  padding: 3rem 0;
+
+  &.white {
+    background-color: $off-white;
+  }
 }
 
 @media screen and (max-width: $phone-landscape-max) {
-  .content {
-    padding: 0;
-    width: 100%;
-  }
-
-  section {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
 }

@@ -5,25 +5,53 @@ $medium: 500;
 $regular: 400;
 $light: 300;
 
-$sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@font-face {
+  font-family: 'Camber';
+  font-weight: $regular;
+  src: url('/font/Camber-Rg.eot?') format('eot'),
+       url('/font/Camber-Rg.woff') format('woff'),
+       url('/font/Camber-Rg.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Camber';
+  font-weight: $medium;
+  src: url('/font/Camber-Sb.eot?') format('eot'),
+       url('/font/Camber-Sb.woff') format('woff'),
+       url('/font/Camber-Sb.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kepler Std';
+  font-weight: $regular;
+  src: url('/font/KeplerStd-Regular.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Kepler Std';
+  font-weight: $medium;
+  src: url('/font/KeplerStd-Medium.otf') format('otf');
+}
+
+$sans: 'Camber', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$serif: 'Kepler Std', Georgia, serif;
 
 h1, %h1 {
-  font-size: 2.25rem;
-  font-weight: $light;
-  letter-spacing: 0.5px;
-  margin-bottom: 2.5rem;
+  font-family: $serif;
+  font-size: 3rem;
+  font-weight: $regular;
+  margin-bottom: 0;
 }
 
 h2, %h2 {
-  font-size: 1rem;
-  font-weight: $medium;
-  letter-spacing: 4px;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
+  font-family: $serif;
+  font-size: 2.5rem;
+  font-weight: $regular;
+  margin-bottom: 0;
 }
 
 h3, %h3 {
+  font-family: $serif;
   font-size: 1.5rem;
   letter-spacing: 0.5px;
 }
@@ -34,7 +62,10 @@ h4, %h4 {
 }
 
 h5, %h5 {
-  font-size: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: $medium;
+  letter-spacing: 1.5px;
+  line-height: 1rem;
   text-transform: uppercase;
 }
 
