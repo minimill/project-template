@@ -164,14 +164,18 @@ gulp.task('build',
     gulp.parallel('sass', 'images', 'fonts', 'js', 'templates')
 ));
 
-gulp.task('build:optimized',
-  gulp.series('clean',
-    gulp.parallel('sass:optimized', 'images:optimized', 'fonts', 'js', 'templates:optimized')
-));
+gulp.task(
+  "build:optimized",
+  gulp.series(
+    "clean",
+    gulp.parallel("sass:optimized", "images:optimized", "fonts", "js"),
+    "templates:optimized"
+  )
+);
 
 gulp.task('deploy:rsync', function(done) {
-  cp.exec('rsync -avuzh ./dist/* dan:/srv/example.com/public_html/', function() {
-    process.stdout.write('Deployed to https://example.com\n');
+  cp.exec('rsync -avuzh ./dist/* dan:/srv/agtech-circle.schlosser.io/public_html/', function() {
+    process.stdout.write("Deployed to https://agtech-circle.schlosser.io\n");
     done();
   })
   .stdout.on('data', function(data) {

@@ -39,20 +39,24 @@ $serif: 'Kepler Std', Georgia, serif;
 h1, %h1 {
   font-family: $serif;
   font-size: 3rem;
+  line-height: 1.35;
   font-weight: $regular;
   margin-bottom: 0;
 }
 
 h2, %h2 {
+  padding-top: 3rem;
+  text-align: center;
   font-family: $serif;
-  font-size: 2.5rem;
+  font-size: 2.75rem;
   font-weight: $regular;
   margin-bottom: 0;
 }
 
 h3, %h3 {
   font-family: $serif;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  line-height: 3rem;
   letter-spacing: 0.5px;
 }
 
@@ -70,19 +74,34 @@ h5, %h5 {
 }
 
 p, .p {
-  font-size: 1rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
 }
 
 strong {
   font-weight: $medium;
 }
 
-@media screen and (max-width: $phone-landscape-max) {
+@media screen and (max-width: $tablet-landscape-max) {
   h1, %h1 {
-    font-size: 1.75rem;
+    font-size: 2.5rem;
   }
 
-  h4, %h4 {
+  h2, %h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: $phone-landscape-max) {
+  h1, %h1 {
+    font-size: 2rem;
+  }
+
+  h2, %h2 {
+    font-size: 2rem;
+  }
+
+  h3, %h3 {
     font-size: 1.5rem;
   }
 }

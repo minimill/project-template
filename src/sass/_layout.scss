@@ -8,11 +8,103 @@ $content-width: 72rem;
 }
 
 section {
-  margin: 3rem 0;
-  padding: 3rem 0;
+  display: flex;
+  margin: 0 auto 6rem;
+  max-width: 144rem;
+}
 
-  &.white {
-    background-color: $off-white;
+@media screen and (max-width: 136rem) {
+  section {
+    max-width: 132rem;
+  }
+}
+
+@media screen and (max-width: 124rem) {
+  section {
+    max-width: 120rem;
+  }
+}
+
+@media screen and (max-width: 112rem) {
+  section {
+    max-width: 108rem;
+  }
+}
+
+@media screen and (max-width: 100rem) {
+  section {
+    max-width: 96rem;
+  }
+}
+
+@media screen and (max-width: 88rem) {
+  section {
+    max-width: 84rem;
+  }
+}
+
+@media screen and (max-width: 76rem) {
+  section {
+    max-width: 72rem;
+  }
+}
+
+@media screen and (max-width: 64rem) {
+  section {
+    max-width: 60rem;
+  }
+}
+
+@media screen and (max-width: 58rem) {
+  section {
+    max-width: 54rem;
+    margin: 0 auto 3rem;
+
+    &.two-up {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 52rem) {
+  section {
+    max-width: 48rem;
+  }
+}
+
+@media screen and (max-width: 46rem) {
+  section {
+    max-width: 42rem;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  section {
+    max-width: 36rem;
+  }
+}
+
+@media screen and (max-width: 34rem) {
+  section {
+    max-width: 30rem;
+  }
+}
+
+@media screen and (max-width: 28rem) {
+  section {
+    max-width: 24rem;
+  }
+}
+
+@media screen and (max-width: 22rem) {
+  section {
+    max-width: 18rem;
+  }
+}
+
+@media screen and (max-width: 16rem) {
+  section {
+    max-width: 12rem;
   }
 }
 

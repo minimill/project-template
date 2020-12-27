@@ -1,71 +1,66 @@
 {{#extend "base"}}
 {{#content "main" mode="prepend"}}
-<ul class="backgrounds">
-    <li class="background-agtech-hero" id="background-agtech-hero"></li>
-    <li class="background-agtech-team" id="background-agtech-team"></li>
-    <li class="background-agtech-footer" id="background-agtech-footer"></li>
-</ul>
-<ul class="sections" id="sections">
-    <li class="animated-section section-agtech-hero" data-section-id="agtech-hero">
-        <nav>
-            <div class="content">
+<section class="two-up">
+    <div class="content-block">
+        <header>
+            <nav>
                 <ul class="nav-items">
                     <li class="nav-item logo">
                         {{> "svg/interact-logo.svg" }}
                     </li>
                     <li class="spacer"></li>
-                    <li class="nav-item">
+                    {{!-- <li class="nav-item">
                         <a href="mailto:agtech@joininteract.com">Get in touch</a>
-                    </li>
+                    </li> --}}
                 </ul>
-            </div>
-        </nav>
-        <div class="content">
-            <div class="blocks">
-                <div class="content-block">
-                    <header>
-                        <h1>Exploring the intersection of agriculture and technology.</h1>
-                        <p>Research grant funded by <a href="https://joininteract.com">Interact</a>, a nonprofit fellowship.</p>
-                    </header>
-                </div>
-                <div class="companion-block">
-                    <i style="background-image:url('/img/cows.jpg')"></i>
-                </div>
-            </div>
+            </nav>
+            <div class="spacer"></div>
+            <h1>Exploring the intersection of agriculture and technology.</h1>
+            <div class="spacer"></div>
+        </header>
+    </div>
+    <div class="art-block grow hero">
+        <img class="horizontal" src="/img/tractor.jpg" alt="farmland">
+    </div>
+</section>
+<section class="two-up">
+    <div class="art-block grow blue">
+        <img class="vertical" src="/img/crops.jpg" alt="farmland">
+    </div>
+    <div class="content-block">
+        <div class="text-content stretch-to-mult">
+            <p>Research grant funded by <a href="https://joininteract.com">Interact</a>, a nonprofit fellowship. We respect each other’s time, skillsets, and perspectives. We are open with ourselves and others about how we are doing. We care about the impact we have on each other and on the world. We both meet people where they are, and push them to do their best.</p>
+            <p>Research grant funded by <a href="https://joininteract.com">Interact</a>, a nonprofit fellowship. We respect each other’s time, skillsets, and perspectives. We are open with ourselves and others about how we are doing. We care about the impact we have on each other and on the world. We both meet people where they are, and push them to do their best.</p>
         </div>
-    </li>
-    <li class="animated-section section-agtech-team" data-section-id="agtech-team">
-        <div class="content">
-            <h2>Members</h2>
-            <ul class="team-list">
-                {{#each team}}
-                    <li class="team-member">
-                        <div class="image-wrapper">
-                            <img src="{{ this.profile }}" />
-                        </div>
+    </div>
+</section>
+<section>
+    <div class="art-block green-strip"></div>
+    <div class="content-block">
+        <h2>Members</h2>
+        <ul class="team-list">
+            {{#each team}}
+                <li class="team-member">
+                    <div class="image-wrapper">
+                        <img src="{{ this.profile }}" />
+                    </div>
+                    <div class="text stretch-to-mult">
                         <h3>{{ this.name }}</h3>
-                    </li>
-                {{/each}}
-            </ul>
-        </div>
-    </li>
-    <li class="animated-section section-agtech-footer" data-section-id="agtech-footer">
-        <div class="content">
-            <h2>Get in touch</h2>
-            <a class="button" href="mailto:agtech@joininteract.com">agtech@joininteract.com</a>
-        </div>
-        <footer>
-            <div class="content">
-                <p>&copy; 2020 Interact</p>
-            </div>
-        </footer>
-    </li>
-</ul>
-<script src="/js/sections.js"></script>
-<script>
-    var sections = new Sections({
-        mobileWidth: 1024,
-    }).enable();
-</script>
+                        <p>{{ this.bio }}</p>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="art-block green-strip"></div>
+</section>
+<section class="footer">
+    <div class="content-block">
+        <h2>Get in touch</h2>
+        <a class="button" href="mailto:agtech@joininteract.com">agtech@joininteract.com</a>
+        <p>&copy; 2020 Interact</p>
+    </div>
+</section>
+<script src="/js/mult6.js"></script>
 {{/content}}
 {{/extend}}

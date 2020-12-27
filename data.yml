@@ -1,5 +1,5 @@
 meta:
-  title: ""
+  title: "Interact AgTech Circle"
   description: ""
   facebook_image: ""  # /img/facebook.png
   twitter_image: ""  # /img/twitter.png
@@ -13,24 +13,51 @@ meta:
 team:
 - name: Athena Kan
   profile: /img/team/athena.jpeg
+  bio: >
+    I'm CEO of Ladder to help low-income Americans obtain licenses tied to employment in 3-14 weeks. I run the twitter meme group @inagfatt, helped start the @itiseyemoutheye trend, and love watching food videos!
 - name: Dan Schlosser
   profile: /img/team/dan.jpg
+  bio: >
+    Dan Schlosser is a product manager at the New York Times. Before joining the Times, Dan was a product manager at Google, working on Google Drive, Firebase, and Chrome.
 - name: Hannah Kerner
   profile: /img/team/hannah.jpeg
+  bio: >
+    Dr. Hannah Kerner is an Assistant Research Professor in the Department of Geographical Sciences at the University of Maryland. Her research involves developing new machine learning methods using remote sensing data for agricultural monitoring, food security, and other applications in Earth and planetary science.
 - name: Harry Bleyan
   profile: /img/team/harry.jpg
+  bio: >
+    Worked on Brain-Computer Interfaces at MIT, now doing Speech ML at Google. Build stuff in my garage when I'm not riding my motorcycle or climbing.
 - name: Jenna Fahle
   profile: /img/team/jenna.jpeg
+  bio: >
+    Jenna Fahle currently works at the Ecology Center as the program manager for Market Match, a program in California that connects low-income shoppers to farmers and farm fresh food in their region.
+- name: Joshua Miller
+  profile: /img/team/joshua.jpeg
+  bio: >
+    I founded FarmShots, acquired by Syngenta in 2018.
 - name: Mackenzie Burnett
   profile: /img/team/mackenzie.jpeg
+  bio: >
+    Mackenzie Burnett is the cofounder of Ambrook, which aims to reduce regulatory burden on farmers. She serves on the Board of Directors of Interact, a nonprofit that provides fellowships to young, mission-driven technologists.
 - name: Maya Caddle
   profile: /img/team/maya.jpeg
+  bio: >
+    Maya is passionate about the African Tech space, and is currently trying to identify the problem space that she really wants to tackle (and is looking for co-founders). Last summer she decided she wanted to get some exposure to the African Tech scene so I booked a flight and 2 weeks later arrived in Kenya, networked and ended up working a pan-African digital bank focusing on on BD, UX and product development.
 - name: Nathalyn Nunoo
   profile: /img/team/nathalyn.jpg
+  bio: >
+    Hi! By day I'm a product designer working on commerce/experimental products at Facebook and by night I'm sipping wine/caring for my many plants. I'm interested in agricultural ideas/tech in developing/underserved markets as well as community-centered approaches (ie. botanical gardens, public greenhouses, conservatories etc).
 - name: Nina Lu
   profile: /img/team/nina.jpg
+  bio: >
+    Nina Lu is a senior program manager at Pillpack (Amazon Pharmacy) where she manages experimental B2B healthcare initiatives. She joined Pillpack prior to its acquisition by Amazon. Prior to Pillpack, Nina was a venture capital associate at Kleiner Perkins where she invested in growth stage digital health and frontier technology startups.
 - name: Tena Nevidal
   profile: /img/team/tena.jpeg
+  bio: >
+    I grew up in Croatia, studied liberal arts and cognitive sciences in London and Paris, then joined a startup in Berlin a year ago to pursue an interest in data analysis and to learn about business in general. Throughout my studies I’ve been passionate about climate change and sustainability, as well as empathy, wellbeing, and decision-making.
 - name: Uzoma Ayogu
   profile: /img/team/uzuma.jpg
+  bio: >
+    Uzo is the CTO & Co-founder of Releaf (YCS17). Releaf supplies food processing factories in Nigeria with high quality raw materials. They currently work in the vegetable oil value chain where they source palm nuts from smallholders farmers, de-shell the nuts and then sell the palm kernels to veg. oil refineries.
+
 
