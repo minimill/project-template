@@ -26,13 +26,14 @@
     "gulp-print": "^5.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^5.0.0",
     "gulp-scss-lint": "^0.7.2",
     "gulp-shell": "^0.8.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^3.0.2",
     "image-size": "^0.7.2",
-    "jshint": "^2.9.1"
+    "jshint": "^2.9.1",
+    "sass": "^1.38.2"
   },
   "repository": {
     "type": "git",
